@@ -30,15 +30,16 @@ class GuessingGame {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  initialGuess() {
-    this.currentGuess = GuessingGame.getRandom(this.min, this.max);
+  guess() {
+    this.currentGuess ??=
+      this.rangeArr[Math.round((this.rangeArr.length - 1) / 2)];
 
-    console.log(this.currentGuess);
+    // console.log(this.currentGuess);
     return this.currentGuess;
   }
 
-  pickLower() {
-    console.log('-------------\n');
+  lower() {
+    // console.log('-------------\n');
 
     const { currentGuess, rangeArr } = this;
     const indexMin = 0;
@@ -50,7 +51,7 @@ class GuessingGame {
 
       this.firstGuessHappened = true;
 
-      console.log(this.rangeArr);
+      // console.log(this.rangeArr);
       return this.rangeArr;
     }
     const indexMax = (this.rangeLeft ?? rangeArr).length - 1;
@@ -58,15 +59,19 @@ class GuessingGame {
     // console.log(indexMiddle);
     this.rangeRight = (this.rangeLeft ?? rangeArr).slice(indexMiddle);
     this.rangeLeft = (this.rangeLeft ?? rangeArr).slice(indexMin, indexMiddle);
-    [this.currentGuess] = this.rangeRight;
-
-    console.log(this.rangeLeft, this.rangeRight, this.currentGuess);
+    if (this.rangeRight.length) [this.currentGuess] = this.rangeRight;
+    // console.log(
+    //   this.rangeLeft,
+    //   this.rangeRight,
+    //   this.currentGuess
+    //   // '1312321412441414123'
+    // );
 
     return this.currentGuess;
   }
 
-  pickGreater() {
-    console.log('-------------\n');
+  greater() {
+    // console.log('-------------\n');
 
     const { currentGuess, rangeArr } = this;
     const indexMax = (this.rangeRight ?? rangeArr).length - 1;
@@ -77,7 +82,7 @@ class GuessingGame {
       this.rangeArr = rangeArr.slice(indexMin, indexMax + 1);
 
       this.firstGuessHappened = true;
-      console.log(this.rangeArr);
+      // console.log(this.rangeArr);
       return this.rangeArr;
     }
     // const indexMin = (this.rangeRight ?? rangeArr)[0];
@@ -88,35 +93,64 @@ class GuessingGame {
     this.rangeRight = (this.rangeRight ?? rangeArr).slice(indexMiddle);
     [this.currentGuess] = this.rangeRight;
 
-    console.log(this.rangeLeft, this.rangeRight, this.currentGuess);
+    // console.log(
+    //   // this.rangeLeft,
+    //   // this.rangeRight,
+    //   this.currentGuess
+    //   // '1312321412441414123'
+    // );
 
     return this.currentGuess;
   }
 }
 
+// const number = 359;
 const game = new GuessingGame();
 game.setRange(0, 385);
-game.currentGuess = 174;
-game.userNumer = 359;
-console.log(game.currentGuess);
-// game.initialGuess();
 
-game.pickGreater();
-game.pickGreater();
-game.pickGreater();
-game.pickGreater();
-game.pickGreater();
-game.pickLower();
-game.pickLower();
-game.pickLower();
-// game.pickGreater();
-// game.pickGreater();
-// game.pickLower();
-// game.pickLower();
+let result = game.guess();
+game.greater();
+result = game.guess();
+game.greater();
+result = game.guess();
+game.greater();
+result = game.guess();
+game.lower();
+result = game.guess();
+game.greater();
+result = game.guess();
+game.greater();
+result = game.guess();
+game.greater();
+result = game.guess();
+game.lower();
+result = game.guess();
+console.log(result);
+
+// const game = new GuessingGame();
+// game.setRange(0, 385);
+// game.currentGuess = 174;
+// game.userNumer = 359;
+// console.log(game.currentGuess);
+// // game.initialGuess();
+// game.greater();
+// game.greater();
+// game.greater();
+// game.greater();
+// game.greater();
+// game.lower();
+// game.lower();
+// game.lower();
+// game.greater();
+// game.greater();
+// game.lower();
+// game.lower();
+// console.log(game.currentGuess);
+// console.log(game.guess());
 
 // game.initialGuess();
 // console.log(game.currentGuess);
-// game.pickLower();
+// game.lower();
 
 // console.log(game.name);
 
