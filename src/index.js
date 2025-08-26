@@ -18,8 +18,8 @@ class GuessingGame {
   setRange(min, max) {
     this.min = min;
     this.max = max;
-    this.rangeArr = Array.from({ length: max }, (_, index) => {
-      return index + min + 1;
+    this.rangeArr = Array.from({ length: max - min + 1 }, (_, index) => {
+      return index + min;
     });
 
     // console.log(this.rangeArr);
@@ -27,8 +27,8 @@ class GuessingGame {
   }
 
   guess() {
-    this.currentGuess =
-      this.rangeArr[Math.round((this.max - this.min) / 2) + this.min];
+    this.currentGuess = Math.floor((this.min + this.max) / 2);
+    // this.rangeArr[Math.round((this.max - this.min) / 2) + this.min];
     // TUTORIAL
     // https://www.youtube.com/watch?v=9EmO9_MK1gQ&t=34s&ab_channel=Front-endScience%D1%96%D0%B7%D0%A1%D0%B5%D1%80%D0%B3%D1%96%D1%94%D0%BC%D0%9F%D1%83%D0%B7%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D0%B8%D0%BC
 
