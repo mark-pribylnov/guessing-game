@@ -1,3 +1,15 @@
+// const readline = require('readline');
+
+// const rl = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout,
+// });
+
+// rl.question('Gues ', (answer) => {
+//   console.log(`Hello, ${answer}!`);
+//   rl.close();
+// });
+
 class GuessingGame {
   // constructor() {
   //   // throw new Error('Not implemented');
@@ -27,36 +39,70 @@ class GuessingGame {
 
   pickLower() {
     const { min, currentGuess, rangeArr } = this;
-
     const indexMin = rangeArr.indexOf(min);
-    const indexMax = rangeArr.indexOf(currentGuess);
 
-    this.rangeArr = rangeArr.slice(indexMin, indexMax);
+    if (!this.firstGuessHappened) {
+      const indexMax = rangeArr.indexOf(currentGuess);
 
-    console.log(this.rangeArr);
-    return this.rangeArr;
+      this.rangeArr = rangeArr.slice(indexMin, indexMax);
+
+      this.firstGuessHappened = true;
+
+      console.log(this.rangeArr);
+      return this.rangeArr;
+    }
+    const indexMax = (this.rangeLeft ?? rangeArr).length - 1;
+    const indexMiddle = Math.round((indexMax - indexMin) / 2);
+    // console.log(indexMiddle);
+    this.rangeRight = (this.rangeLeft ?? rangeArr).slice(indexMiddle);
+    this.rangeLeft = (this.rangeLeft ?? rangeArr).slice(indexMin, indexMiddle);
+    [this.currentGuess] = this.rangeRight;
+
+    console.log(this.rangeLeft, this.rangeRight, this.currentGuess);
+
+    return this.currentGuess;
   }
 
   pickGreater() {
-    const { max, currentGuess, rangeArr } = this;
+    const { currentGuess, rangeArr } = this;
+    const indexMax = (this.rangeRight ?? rangeArr).length - 1;
 
-    const indexMin = rangeArr.indexOf(currentGuess) + 1;
-    const indexMax = rangeArr.indexOf(max) + 1;
+    if (!this.firstGuessHappened) {
+      const indexMin = rangeArr.indexOf(currentGuess) + 1;
 
-    this.rangeArr = rangeArr.slice(indexMin, indexMax);
+      this.rangeArr = rangeArr.slice(indexMin, indexMax + 1);
 
-    console.log(this.rangeArr);
-    return this.rangeArr;
+      this.firstGuessHappened = true;
+      console.log(this.rangeArr);
+      return this.rangeArr;
+    }
+    // const indexMin = (this.rangeRight ?? rangeArr)[0];
+    const indexMin = 0;
+    const indexMiddle = Math.round((indexMax - indexMin) / 2);
+    // console.log(indexMiddle);
+    this.rangeLeft = (this.rangeRight ?? rangeArr).slice(indexMin, indexMiddle);
+    this.rangeRight = (this.rangeRight ?? rangeArr).slice(indexMiddle);
+    [this.currentGuess] = this.rangeRight;
+
+    console.log(this.rangeLeft, this.rangeRight, this.currentGuess);
+
+    return this.currentGuess;
   }
 }
 
 const game = new GuessingGame();
-game.setRange(1, 100);
-game.currentGuess = 8;
+game.setRange(1, 10);
+game.currentGuess = 2;
+game.userNumer = 8;
 console.log(game.currentGuess);
 // game.initialGuess();
 
 game.pickGreater();
+game.pickGreater();
+game.pickGreater();
+// game.pickGreater();
+// game.pickLower();
+// game.pickLower();
 // game.pickLower();
 
 // game.initialGuess();
